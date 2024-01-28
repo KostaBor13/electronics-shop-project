@@ -10,3 +10,7 @@ def test_calculate_total_price():
 
 def test_apply_discount():
     assert item.price * pay_rate == 17
+
+
+def test_string_to_number():
+    assert type(Item.string_to_number(item.price)) == int
