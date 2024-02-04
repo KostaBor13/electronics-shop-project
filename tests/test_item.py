@@ -25,3 +25,10 @@ def test_apply_discount():
 
 def test_string_to_number():
     assert type(Item.string_to_number(item.price)) == int
+
+
+def test__repr__():
+    assert repr(item) == "Item('длинноеимя', 20.0, 2)"
+
+def test__str__():
+    assert str(item) == 'длинноеимя'
