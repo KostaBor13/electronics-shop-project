@@ -2,16 +2,18 @@
 from src.item import Item
 item = Item("a", 20.0, 2)
 pay_rate = 0.85
-
 short_name = "короткое"
 long_name = "длинноеимяяяя"
 
 
-item.name = short_name
-assert item.name == short_name
+def test_name_short():
+    item.name = short_name
+    assert item.name == short_name
 
-item.name = long_name
-assert item.name == long_name[:10]
+
+def test_name_long():
+    item.name = long_name
+    assert item.name == long_name[:10]
 
 
 def test_calculate_total_price():
