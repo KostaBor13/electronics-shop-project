@@ -1,6 +1,8 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 from src.item import Item
 item = Item("a", 20.0, 2)
+item2 = Item("a", 20.0, 2)
+
 pay_rate = 0.85
 short_name = "короткое"
 long_name = "длинноеимяяяя"
@@ -34,3 +36,7 @@ def test__repr__():
 
 def test__str__():
     assert str(item) == 'длинноеимя'
+
+
+def test__add__():
+    assert item.quantity + item2.quantity == 4
