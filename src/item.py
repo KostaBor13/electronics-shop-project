@@ -28,7 +28,7 @@ class Item:
         return self.__name
 
     def __add__(self, other):
-        if isinstance(other, self.__class__):
+        if isinstance(other, Item):
             return self.quantity + other.quantity
         return None
 
