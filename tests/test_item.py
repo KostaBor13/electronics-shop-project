@@ -1,5 +1,10 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
+import pytest
+from src.item import Item, InstantiateCSVError
+from pathlib import Path
 from src.item import Item
+
+
 item = Item("a", 20.0, 2)
 item2 = Item("a", 20.0, 2)
 
@@ -40,3 +45,15 @@ def test__str__():
 
 def test__add__():
     assert item.quantity + item2.quantity == 4
+
+
+def test_errors_file_not_found():
+    Item.DATA_DIR = Path(__file__).parent.joinpath('items_not.csv')
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv()
+
+
+def test_errors_file_broken():
+    Item.DATA_DIR = Path(__file__).parent.joinpath('../src/items_broken.csv')
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv()

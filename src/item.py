@@ -1,4 +1,11 @@
 import csv
+import os
+from pathlib import Path
+
+
+class InstantiateCSVError(KeyError):
+    def __str__(self):
+        return "Файл поврежден"
 
 
 class Item:
@@ -7,6 +14,7 @@ class Item:
     """
     pay_rate = 1.0
     all = []
+    DATA_DIR = Path(__file__).parent.joinpath('items.csv')
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
@@ -57,15 +65,25 @@ class Item:
         self.__name = name
 
     @classmethod
-    def instantiate_from_csv(cls, fil):
-        cls.all.clear()
-        with open(fil, newline='') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                name = row['name']
-                price = cls.string_to_number(row['price'])
-                quantity = int(row['quantity'])
-                cls(name, price, quantity)
+    def instantiate_from_csv(cls):
+        """Класс-метод, инициализирующий экземпляры класса `Item` данными из файла _src/items.csv_"""
+        try:
+            with cls.DATA_DIR.open(newline='') as csvfile:
+                reader = csv.DictReader(csvfile)
+                cls.all.clear()
+                try:
+                    for row in reader:
+                        name = row['name']
+                        price = row['price']
+                        quantity = row['quantity']
+                        cls(name, price, quantity)
+                except KeyError:
+                    raise InstantiateCSVError(f'Файл items.csv поврежден')
+        except FileNotFoundError:
+            raise FileNotFoundError(f'Отсутствует файл items.csv')
+        else:
+            return cls
+
 
     @staticmethod
     def string_to_number(value: str) -> float:
